@@ -6,6 +6,7 @@ from sugar.activity import activity
 from gettext import gettext as _
 import gtk
 
+
 class PhysicsActivity(olpcgames.PyGameActivity):
     game_name = 'physics'
     game_title = 'Physics'
