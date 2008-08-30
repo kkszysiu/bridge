@@ -23,7 +23,7 @@ import olpcgames
 import elements
 from elements import Elements
 import tools
-import bridge
+from bridge import Bridge
 from helpers import *
 
 class PhysicsGame:
@@ -35,6 +35,7 @@ class PhysicsGame:
         self.canvas = olpcgames.ACTIVITY.canvas
         self.joystickobject = None 
         self.debug = True
+
         # create the name --> instance map for components
         self.toolList = {}
         for c in tools.allTools:
@@ -48,7 +49,8 @@ class PhysicsGame:
         # set up static environment
         self.world.add.ground()    
 
-        bridge.create_world(self)
+        self.bridge = Bridge(self)
+        self.bridge.create_world()
         
     def run(self):
         self.running = True    

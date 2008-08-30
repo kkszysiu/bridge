@@ -4,6 +4,7 @@
 #                           By Alex Levenson
 #==================================================================
 import pygame
+from elements import box2d
 from pygame.locals import *
 from helpers import *
 from inspect import getmro
@@ -91,6 +92,9 @@ class Tool(object):
     def cancel(self):
         # default cancel doesn't do anything
         pass
+
+    def to_b2vec(self, pt):
+        return self.game.world.add.to_b2vec(pt)
 
 # The circle creation tool        
 class CircleTool(Tool): 
@@ -429,6 +433,41 @@ class JoystickTool(Tool):
     def cancel(self):
         self.vertices = None
 
+
+# The joint tool        
+class BridgeJointTool(Tool):
+    name = "bridgejoint"
+    icon = "joint"
+    toolTip = "Bridge Joint"
+    
+    def __init__(self,gameInstance):
+        self.game = gameInstance
+        self.name = "Bridge Joint"
+        self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None
+    def handleEvents(self,event):
+        #look for default events, and if none are handled then try the custom events 
+        if super(BridgeJointTool,self).handleEvents(event):
+            return
+        if event.type != MOUSEBUTTONUP or event.button != 1:
+            return
+
+        print "mouse button up"
+        bodies = self.game.world.get_bodies_at_pos(event.pos)
+        if not bodies or len(bodies) != 2:
+            return
+        
+        print bodies[0]
+        print bodies[1]
+        jointDef = box2d.b2RevoluteJointDef()
+        jointDef.Initialize(bodies[0], bodies[1], self.to_b2vec(event.pos))
+        joint = self.game.world.world.CreateJoint(jointDef)
+        self.game.bridge.joint_added(joint)
+
+    def draw(self):
+        return
+    
+    def cancel(self):
+        self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None  
 
 def getAllTools():
     this_mod = __import__(__name__)
