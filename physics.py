@@ -23,6 +23,7 @@ import olpcgames
 import elements
 from elements import Elements
 import tools
+import bridge
 from helpers import *
 
 class PhysicsGame:
@@ -46,6 +47,8 @@ class PhysicsGame:
         
         # set up static environment
         self.world.add.ground()    
+
+        bridge.create_world(self)
         
     def run(self):
         self.running = True    
