@@ -59,6 +59,9 @@ class PhysicsGame:
                 self.currentTool.handleEvents(event)
             # Clear Display
             self.screen.fill((255,255,255)) #255 for white
+
+            if self.world.run_physics:
+                self.bridge.for_each_frame()
         
             # Update & Draw World
             self.world.update()
@@ -71,6 +74,7 @@ class PhysicsGame:
             text = self.font.render("Current Tool: "+self.currentTool.name, True, (255,255,255))
             textpos = text.get_rect(left=700,top=7)
             self.screen.blit(text,textpos)  
+
             
             # Flip Display
             pygame.display.flip()  

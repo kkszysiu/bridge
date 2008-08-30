@@ -5,6 +5,7 @@ class Bridge:
         self.game = game
         self.screen = game.screen
         self.world = game.world
+        self.joints = []
 
     def create_world(self):
         rect = pygame.Rect((0,800), (350, -250))
@@ -20,4 +21,13 @@ class Bridge:
 
     def joint_added(self, joint):
         print "joint added!"
+        self.joints.append(joint)
+
+    def for_each_frame(self):
+        for joint in self.joints:
+            force = joint.GetReactionForce().Length()
+            if force > 500:
+                print "destroy joint!"
+                self.world.world.DestroyJoint(joint)
+                self.joints.remove(joint)
 

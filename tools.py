@@ -451,13 +451,11 @@ class BridgeJointTool(Tool):
         if event.type != MOUSEBUTTONUP or event.button != 1:
             return
 
-        print "mouse button up"
-        bodies = self.game.world.get_bodies_at_pos(event.pos)
+        bodies = self.game.world.get_bodies_at_pos(event.pos,
+            include_static=True)
         if not bodies or len(bodies) != 2:
             return
         
-        print bodies[0]
-        print bodies[1]
         jointDef = box2d.b2RevoluteJointDef()
         jointDef.Initialize(bodies[0], bodies[1], self.to_b2vec(event.pos))
         joint = self.game.world.world.CreateJoint(jointDef)
