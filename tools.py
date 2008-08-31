@@ -25,6 +25,7 @@ class Tool(object):
         elif event.type == KEYDOWN:
             if event.key == K_SPACE:
                 #space pauses
+                self.game.bridge.create_train()
                 self.game.world.run_physics = not self.game.world.run_physics  
             elif event.key == K_t:
                 self.game.bridge.create_train()

@@ -52,7 +52,6 @@ class PhysicsGame:
 
         self.bridge = Bridge(self)
         self.bridge.create_world()
-        self.bridge.create_train()
         
     def run(self):
         self.running = True
