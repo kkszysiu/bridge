@@ -143,11 +143,11 @@ class CircleTool(Tool):
         self.pt1 = None  
         self.radius = None
    
-# The box creation tool        
-class BoxTool(Tool):    
-    name = "box"
+# The Girder creation tool        
+class GirderTool(Tool):    
+    name = "girder"
     icon = "box"
-    toolTip = "Box"
+    toolTip = "Girder"
 
     def __init__(self,gameInstance):
         self.game = gameInstance
@@ -167,7 +167,7 @@ class BoxTool(Tool):
     
     def handleEvents(self,event):
         #look for default events, and if none are handled then try the custom events 
-        if not super(BoxTool,self).handleEvents(event):
+        if not super(GirderTool,self).handleEvents(event):
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.pt1 = pygame.mouse.get_pos()                    
@@ -182,7 +182,7 @@ class BoxTool(Tool):
                             self.colordiff *= -1
                         elif self.red < 20:
                             self.colordiff *= -1
-                            
+                        print self.theta, math.degrees(self.theta)
                         self.game.world.add.rect(((self.pt1[0]+self.pt2[0])/2,(self.pt1[1]+self.pt2[1])/2), distance(self.pt1, self.pt2)/2, self.thickness/2, angle=math.degrees(self.theta), dynamic=True, density=1.0, restitution=0.16, friction=0.5)
                         self.game.bridge.box_added()
                         self.game.world.reset_color()
@@ -192,13 +192,12 @@ class BoxTool(Tool):
         # draw a box from pt1 to mouse
         if self.pt1 != None:
             self.pt2 = pygame.mouse.get_pos()
+            self.theta = getAngle(self.pt1,self.pt2)
             if distance2(self.pt1,self.pt2,self.min):
-                # too small! force length of 100
-                self.theta = getAngle(self.pt1,self.pt2)
+                # too small! force length              
                 self.pt2 = (self.pt1[0]+self.min * math.cos(self.theta),self.pt1[1]-self.min*math.sin(self.theta))
             elif not distance2(self.pt1,self.pt2,self.max):
-                # you don't have that much ramp left!
-                self.theta = getAngle(self.pt1,self.pt2)
+                # too big
                 self.pt2 = (self.pt1[0]+(self.max * math.cos(self.theta)),self.pt1[1]-(self.max * math.sin(self.theta)))         
             pygame.draw.line(self.game.screen, (255,255,255), self.pt1, self.pt2, 30)
     def cancel(self):
