@@ -529,12 +529,16 @@ class Add:
         jointDef.motorSpeed = speed
         jointDef.enableMotor = True
         self.parent.world.CreateJoint(jointDef)
-    #def jointMotor(self,b1,b2,p1,speed):
-    #    p1 = self.tob2vec(p1)
-    #    jointDef = box2d.b2RevoluteJointDef()
-    #    jointDef.Initialize(b1, b2, p1)
-    #    jointDef.
-    #    
+        
+    def jointMotor(self,b1,b2,p1,torque=900,speed=-10):
+        p1 = self.to_b2vec(p1)
+        jointDef = box2d.b2RevoluteJointDef()
+        jointDef.Initialize(b1, b2, p1)
+        jointDef.maxMotorTorque = torque
+        jointDef.motorSpeed = speed
+        jointDef.enableMotor = True
+        self.parent.world.CreateJoint(jointDef)
+        
     def joint(self, *args):        
         print "* Add Joint:", args
 

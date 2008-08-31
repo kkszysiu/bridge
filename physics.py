@@ -49,10 +49,16 @@ class PhysicsGame:
         self.world.add.ground()    
 
         bridge.create_world(self)
+        bridge.create_train(self)
         
     def run(self):
-        self.running = True    
+        self.running = True
+        t = pygame.time.get_ticks()
         while self.running:
+            if (pygame.time.get_ticks() - t) > 1500:
+#                bridge.create_train(self)
+                t = pygame.time.get_ticks()
+                
             for event in pygame.event.get():
                 self.currentTool.handleEvents(event)
             # Clear Display

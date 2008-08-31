@@ -334,6 +334,10 @@ class JointTool(Tool):
                     self.jb2 = self.jb2pos = None
             elif event.type == MOUSEBUTTONUP:
                 if event.button == 1:
+                    if self.jb1[1]:
+                        self.game.world.add.jointMotor(self.jb1[0],self.jb1[1],event.pos)
+                        self.jb1 = None
+                    '''                  
                     # grab the second body
                     self.jb2pos = event.pos
                     self.jb2 = self.game.world.get_bodies_at_pos(event.pos)
@@ -347,14 +351,17 @@ class JointTool(Tool):
                     self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None
                 if event.button == 3:
                     # add a centered fixed joint
-                    '''self.jb2 = self.game.world.get_bodies_at_pos(event.pos)
+                    
+                    self.jb2 = self.game.world.get_bodies_at_pos(event.pos)
                     if self.jb2:
                         self.game.world.add.fixedJoint(self.jb2[0])
                     # regardless, clean everything up
-                    self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None'''
+                    self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None
                     if self.jb1:
                         self.game.world.add.motor(self.jb1[0],self.jb1pos)
                     self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None
+                    '''
+                    
     def draw(self):
         if self.jb1:
             pygame.draw.line(self.game.screen,(100,180,255),self.jb1pos,pygame.mouse.get_pos(),3)
