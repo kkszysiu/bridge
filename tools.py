@@ -198,65 +198,7 @@ class GrabTool(Tool):
     def cancel(self):
         self.game.world.add.remove_mouseJoint()                        
     
-<<<<<<< HEAD:tools.py
-# The joint tool        
-class JointTool(Tool):
-    name = "joint"
-    icon = "joint"
-    toolTip = "Joint"
-    
-    def __init__(self,gameInstance):
-        self.game = gameInstance
-        self.name = "Joint"
-        self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None
-    def handleEvents(self,event):
-        #look for default events, and if none are handled then try the custom events 
-        if not super(JointTool,self).handleEvents(event):
-            if event.type == MOUSEBUTTONDOWN:
-                if event.button >= 1:
-                    # grab the first body
-                    self.jb1pos = event.pos
-                    self.jb1 = self.game.world.get_bodies_at_pos(event.pos)
-                    self.jb2 = self.jb2pos = None
-            elif event.type == MOUSEBUTTONUP:
-                if event.button == 1:
-                    if self.jb1[1]:
-                        self.game.world.add.jointMotor(self.jb1[0],self.jb1[1],event.pos)
-                        self.jb1 = None
-                    '''                  
-                    # grab the second body
-                    self.jb2pos = event.pos
-                    self.jb2 = self.game.world.get_bodies_at_pos(event.pos)
-                    # if we have two distinct bodies, add a distance joint!
-                    if self.jb1 and self.jb2 and str(self.jb1) != str(self.jb2):
-                        self.game.world.add.distanceJoint(self.jb1[0],self.jb2[0],self.jb1pos,self.jb2pos)                    
-                    # If there's only one body, add a fixed joint
-                    elif self.jb2:
-                        self.game.world.add.fixedJoint(self.jb2[0],self.jb2pos)
-                    # regardless, clean everything up
-                    self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None
-                if event.button == 3:
-                    # add a centered fixed joint
-                    
-                    self.jb2 = self.game.world.get_bodies_at_pos(event.pos)
-                    if self.jb2:
-                        self.game.world.add.fixedJoint(self.jb2[0])
-                    # regardless, clean everything up
-                    self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None
-                    if self.jb1:
-                        self.game.world.add.motor(self.jb1[0],self.jb1pos)
-                    self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None
-                    '''
-                    
-    def draw(self):
-        if self.jb1:
-            pygame.draw.line(self.game.screen,(100,180,255),self.jb1pos,pygame.mouse.get_pos(),3)
-    
-    def cancel(self):
-        self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None             
-        
-=======
->>>>>>> 901a8a638a92b2138b6ce27dd7e90b3b3b4d1833:tools.py
+
 # The destroy tool        
 class DestroyTool(Tool):
     name = "destroy"
