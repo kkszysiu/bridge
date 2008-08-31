@@ -15,6 +15,12 @@ class Bridge:
         self.level_completed = False
         self.sounds = {"wooo":loadSound("sounds/wooo.wav"), "death":loadSound("sounds/death.wav"), "startup":loadSound("sounds/startup.wav")}
 
+    def restart(self):
+        self.world.run_physics = False
+        self.train_off_screen = False
+        self.level_completed = False
+        self.train_was_created = False
+
     def create_world(self):
         self.world.set_color((100,150,50))
         rect = pygame.Rect((-400,800), (750, -250))
