@@ -287,12 +287,17 @@ class BridgeJointTool(Tool):
             include_static=True)
         if not bodies or len(bodies) > 2:
             return
+            
         jointDef = box2d.b2RevoluteJointDef()
         if len(bodies) == 1:
             if not bodies[0].IsStatic():
                 if event.pos[1] > 550 and (event.pos[0] < 350 or event.pos[0] > 850):
                     jointDef.Initialize(self.game.world.world.GetGroundBody(), 
-                        bodies[0], self.to_b2vec(event.pos))                      
+                        bodies[0], self.to_b2vec(event.pos))
+                else:
+                    return
+            else:
+                return                   
         elif len(bodies) == 2: 
             if bodies[0].IsStatic():
                 jointDef.Initialize(self.game.world.world.GetGroundBody(), 
