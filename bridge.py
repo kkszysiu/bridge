@@ -11,6 +11,7 @@ class Bridge:
         self.capacity = 1
         self.first_train = None
         self.train_off_screen = False
+        self.train_was_created = False
 
     def create_world(self):
         self.world.set_color((100,150,50))
@@ -60,7 +61,10 @@ class Bridge:
             print "TRAIN FELL OFF!"
             self.train_off_screen = True
 
-    def create_train(self, worldpoint = (-100,490), train = (100, 50), wheelrad = 20, cars = 3):
+    def create_train(self, worldpoint = (-100,490), train = (100, 50), wheelrad = 20, cars = 3, force = False):
+        if not force and self.train_was_created:
+            return
+        self.train_was_created = True
         points = []
         self.train_off_screen = False
         for i in range(0,cars):

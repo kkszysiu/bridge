@@ -37,7 +37,7 @@ class Tool(object):
                 self.game.bridge.create_train()
                 self.game.world.run_physics = not self.game.world.run_physics  
             elif event.key == K_t:
-                self.game.bridge.create_train()
+                self.game.bridge.create_train(force=True)
             elif event.key == K_b:
                 self.game.setTool("box")
             elif event.key == K_c:
