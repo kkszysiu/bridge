@@ -23,7 +23,7 @@ import olpcgames
 import elements
 from elements import Elements
 import tools
-import bridge
+from bridge import Bridge
 from helpers import *
 
 class PhysicsGame:
@@ -35,6 +35,7 @@ class PhysicsGame:
         self.canvas = olpcgames.ACTIVITY.canvas
         self.joystickobject = None 
         self.debug = True
+
         # create the name --> instance map for components
         self.toolList = {}
         for c in tools.allTools:
@@ -48,8 +49,9 @@ class PhysicsGame:
         # set up static environment
         self.world.add.ground()    
 
-        bridge.create_world(self)
-        bridge.create_train(self)
+        self.bridge = Bridge(self)
+        self.bridge.create_world()
+        self.bridge.create_train()
         
     def run(self):
         self.running = True
@@ -63,6 +65,9 @@ class PhysicsGame:
                 self.currentTool.handleEvents(event)
             # Clear Display
             self.screen.fill((255,255,255)) #255 for white
+
+            if self.world.run_physics:
+                self.bridge.for_each_frame()
         
             # Update & Draw World
             self.world.update()
@@ -72,9 +77,10 @@ class PhysicsGame:
             self.currentTool.draw()
             
             #Print all the text on the screen
-            text = self.font.render("Current Tool: "+self.currentTool.name, True, (255,255,255))
+            text = self.font.render("Total Cost: %d" % self.bridge.cost, True, (0,0,0))
             textpos = text.get_rect(left=700,top=7)
             self.screen.blit(text,textpos)  
+
             
             # Flip Display
             pygame.display.flip()  
