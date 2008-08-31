@@ -9,6 +9,8 @@ class Bridge:
         self.cost = 0
         self.stress = 0
         self.capacity = 1
+        self.first_train = None
+        self.train_off_screen = False
 
     def create_world(self):
         self.world.set_color((100,150,50))
@@ -53,16 +55,24 @@ class Bridge:
                 coord = int(self.world.meter_to_screen(vec.x)),int(780 - self.world.meter_to_screen(vec.y))
                 pygame.draw.circle(self.screen, (int(force/2),255-int(force/2),0), coord, 4)
 
+        pos = self.first_train.GetPosition()
+        if pos.y < 0:
+            print "TRAIN FELL OFF!"
+            self.train_off_screen = True
+
     def create_train(self, worldpoint = (-100,490), train = (100, 50), wheelrad = 20, cars = 3):
         points = []
+        self.train_off_screen = False
         for i in range(0,cars):
             startpoint = (worldpoint[0]-(train[0]+7)*i, worldpoint[1])
             points.append(startpoint)
             rect = pygame.Rect(startpoint, train)
             rect.normalize()
             pygame.draw.rect(self.screen, (200, 50, 100), rect, 3)
-            self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
+            rect = self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
                 dynamic = True, density=10.0, restitution=0.16, friction=0.5)
+            if i == 0:
+                self.first_train = rect
                 
             self.world.set_color((0,0,0))
             rearwheel = (startpoint[0]+wheelrad,startpoint[1]+train[1]-wheelrad/2)
