@@ -12,6 +12,7 @@ class Bridge:
         self.first_train = None
         self.train_off_screen = False
         self.train_was_created = False
+        self.level_completed = False
 
     def create_world(self):
         self.world.set_color((100,150,50))
@@ -20,7 +21,7 @@ class Bridge:
         pygame.draw.rect(self.screen, (100,180,255), rect, 3)
         self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
             dynamic=False)
-        rect = pygame.Rect((1200,800), (-350, -250))
+        rect = pygame.Rect((1600,800), (-750, -250))
         rect.normalize()
         pygame.draw.rect(self.screen, (100,180,255), rect, 3)
         self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
@@ -57,8 +58,10 @@ class Bridge:
                 pygame.draw.circle(self.screen, (int(force/2),255-int(force/2),0), coord, 4)
 
         pos = self.first_train.GetPosition()
-        if pos.y < 0:
-            print "TRAIN FELL OFF!"
+        if pos.x > 14.0:
+            self.level_completed = True
+        elif pos.y < 0.0:
+            print "TRAIN FELL OFF!", pos.x
             self.train_off_screen = True
 
     def create_train(self, worldpoint = (-100,490), train = (100, 50), wheelrad = 20, cars = 3, force = False):
