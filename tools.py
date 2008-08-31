@@ -286,6 +286,7 @@ class BridgeJointTool(Tool):
         bodies = self.game.world.get_bodies_at_pos(event.pos,
             include_static=True)
         if not bodies or len(bodies) != 2:
+            print len(bodies)
             return
         
         jointDef = box2d.b2RevoluteJointDef()
