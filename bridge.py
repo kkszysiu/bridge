@@ -13,6 +13,7 @@ class Bridge:
         self.train_off_screen = False
         self.train_was_created = False
         self.level_completed = False
+        self.sounds = {"wooo":loadSound("sounds/wooo.wav"), "death":loadSound("sounds/death.wav"), "startup":loadSound("sounds/startup.wav")}
 
     def create_world(self):
         self.world.set_color((100,150,50))
@@ -59,14 +60,19 @@ class Bridge:
 
         pos = self.first_train.GetPosition()
         if pos.x > 14.0:
-            self.level_completed = True
+            if not self.level_completed:
+                self.level_completed = True
+                self.sounds['wooo'].play()
         elif pos.y < 0.0:
-            print "TRAIN FELL OFF!", pos.x
-            self.train_off_screen = True
+            if not self.train_off_screen:
+                self.sounds['death'].play()
+                print "TRAIN FELL OFF!", pos.x
+                self.train_off_screen = True
 
     def create_train(self, worldpoint = (-100,490), train = (100, 50), wheelrad = 20, cars = 3, force = False):
         if not force and self.train_was_created:
             return
+        self.sounds['startup'].play()
         self.train_was_created = True
         points = []
         self.train_off_screen = False
@@ -107,3 +113,20 @@ class Bridge:
             ftrain = self.world.get_bodies_at_pos(frontlink)
             if len(ftrain) and len(btrain):
                 self.world.add.distanceJoint(btrain[0], ftrain[0], backlink, frontlink)
+
+# function for loading sounds (mostly borrowed from Pete Shinners pygame tutorial)
+def loadSound(name):
+    # if the mixer didn't load, then create an empy class that has an empty play method
+    # this way the program will run if the mixer isn't present (sans sound)
+    class NoneSound:
+        def play(self): pass
+        def set_volume(self): pass
+    if not pygame.mixer:
+        return NoneSound()
+    try:
+        sound = pygame.mixer.Sound(name)
+    except:
+        print "error with sound: " + name
+        return NoneSound()
+    return sound
+
