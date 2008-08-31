@@ -48,6 +48,7 @@ class PhysicsGame:
         
         # set up static environment
         self.world.add.ground()    
+        self.world.run_physics = False
 
         self.bridge = Bridge(self)
         self.bridge.create_world()
