@@ -9,7 +9,7 @@ class Bridge:
         self.cost = 0
 
     def create_world(self):
-        rect = pygame.Rect((0,800), (350, -250))
+        rect = pygame.Rect((-400,800), (750, -250))
         rect.normalize()
         pygame.draw.rect(self.screen, (100,180,255), rect, 3)
         self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
@@ -40,7 +40,7 @@ class Bridge:
                 self.world.world.DestroyJoint(joint)
                 self.joints.remove(joint)
 
-    def create_train(game, worldpoint = (200,490), train = (100, 50), wheelrad = 20, cars = 3):
+    def create_train(game, worldpoint = (-100,490), train = (100, 50), wheelrad = 20, cars = 3):
         points = []
         for i in range(0,cars):
             startpoint = (worldpoint[0]-(train[0]+7)*i, worldpoint[1])
