@@ -40,7 +40,7 @@ class Bridge:
                 self.world.world.DestroyJoint(joint)
                 self.joints.remove(joint)
 
-    def create_train(game, worldpoint = (320,500), train = (100, 50), wheelrad = 20, cars = 3):
+    def create_train(game, worldpoint = (200,490), train = (100, 50), wheelrad = 20, cars = 3):
         points = []
         for i in range(0,cars):
             startpoint = (worldpoint[0]-(train[0]+7)*i, worldpoint[1])
