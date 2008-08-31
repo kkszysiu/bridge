@@ -53,7 +53,7 @@ class Bridge:
                 coord = int(self.world.meter_to_screen(vec.x)),int(780 - self.world.meter_to_screen(vec.y))
                 pygame.draw.circle(self.screen, (int(force/2),255-int(force/2),0), coord, 4)
 
-    def create_train(self, worldpoint = (-100,490), train = (100, 50), wheelrad = 20, cars = 3):
+    def create_train(self, worldpoint = (-100,490), train = (100, 50), wheelrad = 20, cars = 3, speed = -10):
         points = []
         for i in range(0,cars):
             startpoint = (worldpoint[0]-(train[0]+7)*i, worldpoint[1])
