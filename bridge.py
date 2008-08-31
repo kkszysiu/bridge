@@ -50,16 +50,16 @@ class Bridge:
             pygame.draw.rect(game.screen, (200, 50, 100), rect, 3)
     
             game.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
-                dynamic = True, density=1.0, restitution=0.16, friction=0.5)
+                dynamic = True, density=10.0, restitution=0.16, friction=0.5)
     
             rearwheel = (startpoint[0]+wheelrad,startpoint[1]+train[1]-wheelrad/2)
             pygame.draw.circle(game.screen, (0,0,0), rearwheel, wheelrad, 3)
-            game.world.add.ball(rearwheel,wheelrad, dynamic=True, density=1.0, 
+            game.world.add.ball(rearwheel,wheelrad, dynamic=True, density=10.0, 
                 restitution=0.16, friction=0.5)
     
             frontwheel = (startpoint[0]+train[0]-wheelrad,startpoint[1]+train[1]-wheelrad/2)
             pygame.draw.circle(game.screen, (0,0,0), frontwheel, wheelrad, 3)
-            game.world.add.ball(frontwheel,wheelrad, dynamic=True, density=1.0, 
+            game.world.add.ball(frontwheel,wheelrad, dynamic=True, density=10.0, 
                 restitution=0.16, friction=0.5)
     
             rearaxle = game.world.get_bodies_at_pos(rearwheel)
