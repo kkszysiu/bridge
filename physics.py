@@ -66,12 +66,14 @@ class PhysicsGame:
             # Clear Display
             self.screen.fill((80,160,240)) #255 for white
 
-            if self.world.run_physics:
-                self.bridge.for_each_frame()
+
         
             # Update & Draw World
             self.world.update()
             self.world.draw()
+            
+            if self.world.run_physics:
+                self.bridge.for_each_frame()           
             
             # draw output from tools
             self.currentTool.draw()

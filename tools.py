@@ -8,6 +8,15 @@ from elements import box2d
 from pygame.locals import *
 from helpers import *
 from inspect import getmro
+import math
+
+def distance(pt1, pt2):
+        return math.sqrt((pt1[0] - pt2[0]) ** 2 + (pt1[1] -pt2[1]) ** 2)
+
+def distance2(pt1,pt2,amount):
+    if amount == float('inf'): return True
+    return ((pt1[0] - pt2[0]) ** 2 + (pt1[1] - pt2[1]) ** 2) <= (amount ** 2)    
+
 # tools that can be used superlcass
 class Tool(object):
     name = "Tool"
@@ -144,11 +153,18 @@ class BoxTool(Tool):
         self.game = gameInstance
         self.name = "Box"
         self.pt1 = None        
-        self.rect = None
+        self.pt2 = None
+        self.theta = None
+        self.thickness = 30
+        self.max = 300
+        self.min = 100
         self.red = 20
         self.green = 20
         self.blue = 20
         self.colordiff = 20
+        
+
+    
     def handleEvents(self,event):
         #look for default events, and if none are handled then try the custom events 
         if not super(BoxTool,self).handleEvents(event):
@@ -156,8 +172,8 @@ class BoxTool(Tool):
                 if event.button == 1:
                     self.pt1 = pygame.mouse.get_pos()                    
             elif event.type == MOUSEBUTTONUP:
-                if event.button == 1 and self.pt1!=None:                                 
-                    if self.rect.width > 10 and self.rect.height > 10: # elements doesn't like small shapes :(
+                if event.button == 1:                                 
+                    if self.pt2!=None:
                         self.game.world.set_color((self.red,self.green,self.blue))
                         self.red += self.colordiff
                         self.green += self.colordiff
@@ -166,7 +182,8 @@ class BoxTool(Tool):
                             self.colordiff *= -1
                         elif self.red < 20:
                             self.colordiff *= -1
-                        self.game.world.add.rect(self.rect.center, self.rect.width/2, self.rect.height/2, dynamic=True, density=1.0, restitution=0.16, friction=0.5)
+                            
+                        self.game.world.add.rect(((self.pt1[0]+self.pt2[0])/2,(self.pt1[1]+self.pt2[1])/2), distance(self.pt1, self.pt2)/2, self.thickness/2, angle=math.degrees(self.theta), dynamic=True, density=1.0, restitution=0.16, friction=0.5)
                         self.game.bridge.box_added()
                         self.game.world.reset_color()
                     self.pt1 = None        
@@ -174,11 +191,16 @@ class BoxTool(Tool):
     def draw(self):
         # draw a box from pt1 to mouse
         if self.pt1 != None:
-            width = pygame.mouse.get_pos()[0] - self.pt1[0]
-            height = pygame.mouse.get_pos()[1] - self.pt1[1]
-            self.rect = pygame.Rect(self.pt1, (width, height))
-            self.rect.normalize()           
-            pygame.draw.rect(self.game.screen, (50,70,90),self.rect,3)   
+            self.pt2 = pygame.mouse.get_pos()
+            if distance2(self.pt1,self.pt2,self.min):
+                # too small! force length of 100
+                self.theta = getAngle(self.pt1,self.pt2)
+                self.pt2 = (self.pt1[0]+self.min * math.cos(self.theta),self.pt1[1]-self.min*math.sin(self.theta))
+            elif not distance2(self.pt1,self.pt2,self.max):
+                # you don't have that much ramp left!
+                self.theta = getAngle(self.pt1,self.pt2)
+                self.pt2 = (self.pt1[0]+(self.max * math.cos(self.theta)),self.pt1[1]-(self.max * math.sin(self.theta)))         
+            pygame.draw.line(self.game.screen, (255,255,255), self.pt1, self.pt2, 30)
     def cancel(self):
         self.pt1 = None  
         self.rect = None      

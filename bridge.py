@@ -42,11 +42,16 @@ class Bridge:
         for joint in self.joints:
             force = joint.GetReactionForce().Length()
             self.stress += force
+
             if force > 500:
                 print "destroy joint!"
                 self.world.world.DestroyJoint(joint)
                 self.joints.remove(joint)
                 self.capacity -= 500
+            else:
+                vec = joint.GetAnchor1()
+                coord = int(self.world.meter_to_screen(vec.x)),int(780 - self.world.meter_to_screen(vec.y))
+                pygame.draw.circle(self.screen, (int(force/2),255-int(force/2),0), coord, 4)
 
     def create_train(self, worldpoint = (-100,490), train = (100, 50), wheelrad = 20, cars = 3):
         points = []
