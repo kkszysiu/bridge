@@ -71,7 +71,7 @@ class PhysicsGame:
             self.currentTool.draw()
             
             #Print all the text on the screen
-            text = self.font.render("Current Tool: "+self.currentTool.name, True, (255,255,255))
+            text = self.font.render("Total Cost: %d" % self.bridge.cost, True, (0,0,0))
             textpos = text.get_rect(left=700,top=7)
             self.screen.blit(text,textpos)  
 
