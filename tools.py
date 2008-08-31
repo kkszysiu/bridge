@@ -27,7 +27,7 @@ class Tool(object):
                 #space pauses
                 self.game.world.run_physics = not self.game.world.run_physics  
             elif event.key == K_t:
-                self.game.setTool("triangle")
+                self.game.bridge.create_train()
             elif event.key == K_b:
                 self.game.setTool("box")
             elif event.key == K_c:

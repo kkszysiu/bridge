@@ -1,7 +1,7 @@
 [Activity]
-name = Physics
-service_name = org.laptop.physics
-class = activity.PhysicsActivity
-icon = activity-physics
+name = Bridge
+service_name = org.laptop.bridge
+class = activity.BridgeActivity
+icon = activity-bridge
 activity_version = 1
 show_launcher = yes

@@ -73,12 +73,15 @@ class Bridge:
             
             rearaxle = self.world.get_bodies_at_pos(rearwheel)
             frontaxle = self.world.get_bodies_at_pos(frontwheel)
-            self.world.add.jointMotor(rearaxle[0],rearaxle[1],rearwheel)
-            self.world.add.jointMotor(frontaxle[0],frontaxle[1],frontwheel)
+            if len(rearaxle) == 2:
+                self.world.add.jointMotor(rearaxle[0],rearaxle[1],rearwheel)
+            if len(frontaxle) == 2:
+                self.world.add.jointMotor(frontaxle[0],frontaxle[1],frontwheel)
             
         for i in range(1,len(points)):
             backlink = (points[i][0]+train[0]-1,points[i][1]+train[1]-1)
             frontlink = (points[i-1][0]+1,points[i-1][1]+train[1]-1)
             btrain = self.world.get_bodies_at_pos(backlink)
             ftrain = self.world.get_bodies_at_pos(frontlink)
-            self.world.add.distanceJoint(btrain[0], ftrain[0], backlink, frontlink)
+            if len(ftrain) and len(btrain):
+                self.world.add.distanceJoint(btrain[0], ftrain[0], backlink, frontlink)

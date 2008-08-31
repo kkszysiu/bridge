@@ -7,9 +7,9 @@ from gettext import gettext as _
 import gtk
 
 
-class PhysicsActivity(olpcgames.PyGameActivity):
+class BridgeActivity(olpcgames.PyGameActivity):
     game_name = 'physics'
-    game_title = 'Physics'
+    game_title = 'Bridge'
     game_size = None # olpcgame will choose size
 
     # setup the toolbar
