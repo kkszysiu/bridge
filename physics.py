@@ -65,7 +65,7 @@ class PhysicsGame:
             for event in pygame.event.get():
                 self.currentTool.handleEvents(event)
             # Clear Display
-            self.screen.fill((255,255,255)) #255 for white
+            self.screen.fill((80,160,240)) #255 for white
 
             if self.world.run_physics:
                 self.bridge.for_each_frame()
@@ -80,7 +80,11 @@ class PhysicsGame:
             #Print all the text on the screen
             text = self.font.render("Total Cost: %d" % self.bridge.cost, True, (0,0,0))
             textpos = text.get_rect(left=700,top=7)
-            self.screen.blit(text,textpos)  
+            self.screen.blit(text,textpos)
+            ratio = self.bridge.stress*100/self.bridge.capacity
+            text = self.font.render("Stress: %d%%" % ratio, True, (0,0,0))
+            textpos = text.get_rect(left=700,top=25)
+            self.screen.blit(text,textpos)
 
             
             # Flip Display

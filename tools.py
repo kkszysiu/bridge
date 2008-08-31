@@ -144,6 +144,10 @@ class BoxTool(Tool):
         self.name = "Box"
         self.pt1 = None        
         self.rect = None
+        self.red = 20
+        self.green = 20
+        self.blue = 20
+        self.colordiff = 20
     def handleEvents(self,event):
         #look for default events, and if none are handled then try the custom events 
         if not super(BoxTool,self).handleEvents(event):
@@ -153,8 +157,17 @@ class BoxTool(Tool):
             elif event.type == MOUSEBUTTONUP:
                 if event.button == 1 and self.pt1!=None:                                 
                     if self.rect.width > 10 and self.rect.height > 10: # elements doesn't like small shapes :(
+                        self.game.world.set_color((self.red,self.green,self.blue))
+                        self.red += self.colordiff
+                        self.green += self.colordiff
+                        self.blue += self.colordiff
+                        if self.red > 200:
+                            self.colordiff *= -1
+                        elif self.red < 20:
+                            self.colordiff *= -1
                         self.game.world.add.rect(self.rect.center, self.rect.width/2, self.rect.height/2, dynamic=True, density=1.0, restitution=0.16, friction=0.5)
                         self.game.bridge.box_added()
+                        self.game.world.reset_color()
                     self.pt1 = None        
                                 
     def draw(self):
@@ -164,7 +177,7 @@ class BoxTool(Tool):
             height = pygame.mouse.get_pos()[1] - self.pt1[1]
             self.rect = pygame.Rect(self.pt1, (width, height))
             self.rect.normalize()           
-            pygame.draw.rect(self.game.screen, (100,180,255),self.rect,3)   
+            pygame.draw.rect(self.game.screen, (50,70,90),self.rect,3)   
     def cancel(self):
         self.pt1 = None  
         self.rect = None      
