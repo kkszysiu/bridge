@@ -87,6 +87,10 @@ class PhysicsGame:
             textpos = text.get_rect(left=700,top=25)
             self.screen.blit(text,textpos)
 
+            if self.bridge.train_off_screen:
+                text = self.font.render("Train fell off the screen, try again!", True, (0,0,0))
+                textpos = text.get_rect(left=700,top=43)
+                self.screen.blit(text,textpos)
             
             # Flip Display
             pygame.display.flip()  

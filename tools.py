@@ -37,7 +37,7 @@ class Tool(object):
                 self.game.bridge.create_train()
                 self.game.world.run_physics = not self.game.world.run_physics  
             elif event.key == K_t:
-                self.game.bridge.create_train()
+                self.game.bridge.create_train(force=True)
             elif event.key == K_b:
                 self.game.setTool("box")
             elif event.key == K_c:
@@ -293,7 +293,7 @@ class BridgeJointTool(Tool):
                 if event.pos[1] > 550 and (event.pos[0] < 350 or event.pos[0] > 850):
                     jointDef.Initialize(self.game.world.world.GetGroundBody(), 
                         bodies[0], self.to_b2vec(event.pos))                      
-        else: 
+        elif len(bodies) == 2: 
             if bodies[0].IsStatic():
                 jointDef.Initialize(self.game.world.world.GetGroundBody(), 
                     bodies[1], self.to_b2vec(event.pos))
