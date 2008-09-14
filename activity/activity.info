@@ -1,6 +1,7 @@
 [Activity]
 name = Bridge
-service_name = org.laptop.bridge
+bundle_id = org.laptop.bridge
+license = GPLv3
 class = activity.BridgeActivity
 icon = activity-bridge
 activity_version = 1
