@@ -4,5 +4,5 @@ bundle_id = org.laptop.bridge
 license = GPLv3
 class = activity.BridgeActivity
 icon = activity-bridge
-activity_version = 1
+activity_version = 2
 show_launcher = yes
