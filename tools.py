@@ -9,6 +9,7 @@ from pygame.locals import *
 from helpers import *
 from inspect import getmro
 import math
+from gettext import gettext as _
 
 def distance(pt1, pt2):
         return math.sqrt((pt1[0] - pt2[0]) ** 2 + (pt1[1] -pt2[1]) ** 2)
@@ -73,7 +74,7 @@ class Tool(object):
 class CircleTool(Tool): 
     name = "circle"
     icon = "circle"
-    toolTip = "Circle"
+    toolTip = _("Circle")
    
     def __init__(self,gameInstance):
         self.game = gameInstance
@@ -110,7 +111,7 @@ class CircleTool(Tool):
 class GirderTool(Tool):    
     name = "girder"
     icon = "box"
-    toolTip = "Girder"
+    toolTip = _("Girder")
 
     def __init__(self,gameInstance):
         self.game = gameInstance
@@ -171,7 +172,7 @@ class GirderTool(Tool):
 class GrabTool(Tool):
     name = "grab"
     icon = "grab"
-    toolTip = "Grab"
+    toolTip = _("Grab")
     
     def __init__(self,gameInstance):
         self.game = gameInstance
@@ -201,7 +202,7 @@ class GrabTool(Tool):
 class DestroyTool(Tool):
     name = "destroy"
     icon = "destroy"
-    toolTip = "Destroy"
+    toolTip = _("Destroy")
     
     def __init__(self,gameInstance):
         self.game = gameInstance
@@ -240,7 +241,7 @@ class DestroyTool(Tool):
 class BridgeJointTool(Tool):
     name = "bridgejoint"
     icon = "joint"
-    toolTip = "Bridge Joint"
+    toolTip = _("Bridge Joint")
     
     def __init__(self,gameInstance):
         self.game = gameInstance

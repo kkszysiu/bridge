@@ -25,6 +25,7 @@ from elements import Elements
 import tools
 from bridge import Bridge
 from helpers import *
+from gettext import gettext as _
 
 class PhysicsGame:
     def __init__(self,screen):
@@ -79,20 +80,20 @@ class PhysicsGame:
             self.currentTool.draw()
             
             #Print all the text on the screen
-            text = self.font.render("Total Cost: %d" % self.bridge.cost, True, (0,0,0))
+            text = self.font.render(_("Total Cost: %d") % self.bridge.cost, True, (0,0,0))
             textpos = text.get_rect(left=100,top=7)
             self.screen.blit(text,textpos)
             ratio = self.bridge.stress*100/self.bridge.capacity
-            text = self.font.render("Stress: %d%%" % ratio, True, (0,0,0))
+            text = self.font.render(_("Stress: %d%%") % ratio, True, (0,0,0))
             textpos = text.get_rect(left=100,top=25)
             self.screen.blit(text,textpos)
 
             if self.bridge.train_off_screen:
-                text = self.font.render("Train fell off the screen, press R to try again!", True, (0,0,0))
+                text = self.font.render(_("Train fell off the screen, press R to try again!"), True, (0,0,0))
             elif self.bridge.level_completed:
-                text = self.font.render("Level completed, well done!!  Press T to send another train.", True, (0,0,0))
+                text = self.font.render(_("Level completed, well done!!  Press T to send another train."), True, (0,0,0))
             else:
-                text = self.font.render("Press the Spacebar to start/pause.", True, (0,0,0))
+                text = self.font.render(_("Press the Spacebar to start/pause."), True, (0,0,0))
             textpos = text.get_rect(left=100,top=43)
             self.screen.blit(text,textpos)
 
