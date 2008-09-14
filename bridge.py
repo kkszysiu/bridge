@@ -44,9 +44,16 @@ class Bridge:
         self.joints.append(joint)
         self.add_cost(100)
         self.capacity += 500
+        
+    def joint_deleted(self):
+        self.add_cost(-100)
+        self.capacity -= 500
 
     def box_added(self):
         self.add_cost(10)
+        
+    def box_deleted(self):
+        self.add_cost(-10)
 
     def for_each_frame(self):
         self.stress = 0
