@@ -5,7 +5,6 @@ class Bridge:
         self.game = game
         self.screen = game.screen
         self.world = game.world
-        self.joints = []
         self.cost = 0
         self.stress = 0
         self.capacity = 1
@@ -41,11 +40,11 @@ class Bridge:
 
     def joint_added(self, joint):
         print "joint added!"
-        self.joints.append(joint)
         self.add_cost(100)
         self.capacity += 500
         
-    def joint_deleted(self):
+    def joint_deleted(self, joint):
+        print "joint deleting!"
         self.add_cost(-100)
         self.capacity -= 500
 
@@ -57,20 +56,26 @@ class Bridge:
 
     def for_each_frame(self):
         self.stress = 0
-        for joint in self.joints:
-            force = joint.GetReactionForce().Length()
-            self.stress += force
+        joint = self.world.world.GetJointList()
+        going = True
+        while going:
+            if joint.GetType() == 1:
+                if joint.asRevoluteJoint().IsMotorEnabled() == False:
+                    force = joint.GetReactionForce().Length()
+                    self.stress += force
 
-            if force > 500:
-                print "destroy joint!"
-                self.world.world.DestroyJoint(joint)
-                self.joints.remove(joint)
-                self.capacity -= 500
+                    if force > 500:
+                        print "destroy joint!"
+                        self.world.world.DestroyJoint(joint)
+                        self.capacity -= 500
+                    else:
+                        vec = joint.GetAnchor1()
+                        coord = int(self.world.meter_to_screen(vec.x)),int(780 - self.world.meter_to_screen(vec.y))
+                        pygame.draw.circle(self.screen, (int(force/2),255-int(force/2),0), coord, 4)
+            if joint.GetNext():
+                joint = joint.GetNext()
             else:
-                vec = joint.GetAnchor1()
-                coord = int(self.world.meter_to_screen(vec.x)),int(780 - self.world.meter_to_screen(vec.y))
-                pygame.draw.circle(self.screen, (int(force/2),255-int(force/2),0), coord, 4)
-
+                going = False
         pos = self.first_train.GetPosition()
         if pos.x > 14.0:
             if not self.level_completed:

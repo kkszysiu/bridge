@@ -218,14 +218,15 @@ class DestroyTool(Tool):
                     self.vertices.pop(0)
                 tokill = self.game.world.get_bodies_at_pos(pygame.mouse.get_pos())
                 if tokill:
-                        joint = tokill[0].GetJointList()
-                        if joint:
-                            self.game.bridge.joint_deleted()
-                            while joint.next:
-                                joint = joint.next
-                                self.game.bridge.joint_deleted()
-                        self.game.world.world.DestroyBody(tokill[0])
-                        self.game.bridge.box_deleted()
+                    jointnode = tokill[0].GetJointList()
+                    if jointnode:
+                        joint = jointnode.joint
+                        self.game.bridge.joint_deleted(joint)
+                        while joint.GetNext():
+                            joint = joint.GetNext()
+                            self.game.bridge.joint_deleted(joint)
+                    self.game.world.world.DestroyBody(tokill[0])
+                    self.game.bridge.box_deleted()
             elif event.type == MOUSEBUTTONUP and event.button == 1:
                 self.cancel()
     def draw(self):

@@ -67,18 +67,15 @@ class PhysicsGame:
             # Clear Display
             self.screen.fill((80,160,240)) #255 for white
 
-
-        
             # Update & Draw World
             self.world.update()
             self.world.draw()
-            
             if self.world.run_physics:
                 self.bridge.for_each_frame()           
-            
+
             # draw output from tools
             self.currentTool.draw()
-            
+
             #Print all the text on the screen
             text = self.font.render(_("Total Cost: %d") % self.bridge.cost, True, (0,0,0))
             textpos = text.get_rect(left=100,top=7)
