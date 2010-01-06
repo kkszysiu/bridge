@@ -23,7 +23,7 @@ Example usage:
 import logging
 logging.root.setLevel( logging.WARN )
 log = logging.getLogger( 'olpcgames.activity' )
-##log.setLevel( logging.DEBUG )
+log.setLevel( logging.DEBUG )
 
 import pygtk
 pygtk.require('2.0')
@@ -31,8 +31,8 @@ import gtk
 import gtk.gdk
 import os
 
-from sugar.activity import activity
-from sugar.graphics import style
+#from sugar.activity import activity
+#from sugar.graphics import style
 from olpcgames.canvas import PygameCanvas
 from olpcgames import mesh, util
 

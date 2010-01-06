@@ -3,7 +3,7 @@ import os
 import sys
 import logging
 log = logging.getLogger( 'olpcgames.canvas' )
-##log.setLevel( logging.DEBUG )
+log.setLevel( logging.DEBUG )
 import threading
 from pprint import pprint
 

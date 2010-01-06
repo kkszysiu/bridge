@@ -95,8 +95,8 @@ widget = WIDGET = None
 	2**16, 2**16+2,
 )
 
-try:
-	from olpcgames.activity import PygameActivity as PyGameActivity
-except ImportError, err:
-	PyGameActivity = None
+#try:
+#	from olpcgames.activity import PygameActivity as PyGameActivity
+#except ImportError, err:
+#	PyGameActivity = None
 

@@ -55,7 +55,7 @@ class Tool(object):
             if hasattr(event,"action"):
                 if self.game.toolList.has_key(event.action): self.game.setTool(event.action)
         elif event.type == MOUSEBUTTONDOWN and event.button == 1:
-            self.game.canvas.grab_focus()
+            #self.game.canvas.grab_focus()
             handled = False
         else:
             handled = False
@@ -296,5 +296,4 @@ def getAllTools():
         if getmro(a).__contains__(Tool) and a!= Tool: allTools.append(a)
     return allTools
             
-
 allTools = getAllTools()

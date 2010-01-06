@@ -32,8 +32,8 @@ class PhysicsGame:
         self.screen = screen
         # get everything set up
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font(None, 24) # font object
-        self.canvas = olpcgames.ACTIVITY.canvas
+        self.font = pygame.font.Font(None, 18) # font object
+        #self.canvas = olpcgames.canvas
         self.joystickobject = None 
         self.debug = True
 
@@ -71,18 +71,43 @@ class PhysicsGame:
             self.world.update()
             self.world.draw()
             if self.world.run_physics:
-                self.bridge.for_each_frame()           
+                self.bridge.for_each_frame()
 
+            #draw toolbar for tools
+            tb_x = 0
+            for c in tools.allTools:
+                tb_icon_name = c.name+'_icon'
+                tb_icon_name = pygame.image.load("activity-bridge.png").convert_alpha()
+                self.screen.blit(tb_icon_name, (tb_x, 0))
+                #print tb_icon.get_rect()
+                tb_x = tb_x+50
+
+            event = pygame.event.poll()
+            keyinput = pygame.key.get_pressed()
+
+            if keyinput[pygame.K_ESCAPE]:
+                raise SystemExit
+            elif event.type == pygame.QUIT:
+                self.running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                print 'mouse pressed'
+#                for c in tools.allTools:
+#                    tb_icon_name = c.name+'_icon'
+#
+#                    print tb_icon_name
+#                    srect = tb_icon_name.get_rect()
+#                    print srect.collidepoint(event.pos)
+            
             # draw output from tools
             self.currentTool.draw()
 
             #Print all the text on the screen
             text = self.font.render(_("Total Cost: %d") % self.bridge.cost, True, (0,0,0))
-            textpos = text.get_rect(left=100,top=7)
+            textpos = text.get_rect(top=57)
             self.screen.blit(text,textpos)
             ratio = self.bridge.stress*100/self.bridge.capacity
             text = self.font.render(_("Stress: %d%%") % ratio, True, (0,0,0))
-            textpos = text.get_rect(left=100,top=25)
+            textpos = text.get_rect(top=75)
             self.screen.blit(text,textpos)
 
             if self.bridge.train_off_screen:
@@ -91,7 +116,7 @@ class PhysicsGame:
                 text = self.font.render(_("Level completed, well done!!  Press T to send another train."), True, (0,0,0))
             else:
                 text = self.font.render(_("Press the Spacebar to start/pause."), True, (0,0,0))
-            textpos = text.get_rect(left=100,top=43)
+            textpos = text.get_rect(top=93)
             self.screen.blit(text,textpos)
 
             # Flip Display
