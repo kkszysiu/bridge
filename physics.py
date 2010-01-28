@@ -15,6 +15,7 @@ License:  GPLv3 http://gplv3.fsf.org/
 """
 
 import sys
+import os
 import math
 import pygame
 from pygame.locals import *
@@ -38,6 +39,7 @@ class PhysicsGame:
         self.debug = True
 
         # create the name --> instance map for components
+	self.tb_rects = {}
         self.toolList = {}
         for c in tools.allTools:
              self.toolList[c.name] = c(self)
@@ -61,36 +63,51 @@ class PhysicsGame:
             if (pygame.time.get_ticks() - t) > 1500:
 #                bridge.create_train(self)
                 t = pygame.time.get_ticks()
-                
-            for event in pygame.event.get():
-                self.currentTool.handleEvents(event)
+               
             # Clear Display
             self.screen.fill((80,160,240)) #255 for white
 
+            #draw toolbar for tools
+            tb_x = 0
+	    menubg = pygame.image.load('images/menubg.png').convert_alpha()
+	    self.screen.blit(menubg, (0, 0))
+	    menubg_rect = menubg.get_rect()
+	        
+            keyinput = pygame.key.get_pressed()
+
+            if keyinput[pygame.K_ESCAPE]:
+                raise SystemExit
+
+            for event in pygame.fastevent.get():
+                self.currentTool.handleEvents(event)
+		if event.type == pygame.MOUSEBUTTONDOWN:
+		    if event.button == 1:
+			#print 'mouse pressed'
+			if menubg_rect.collidepoint(event.pos):
+			    print 'yeah'
+			for k,v in self.tb_rects.items():
+			    if v.collidepoint(event.pos):
+				#print k
+				self.currentTool = self.toolList[k]
+		    if event.button == 3:
+			self.currentTool.cancel()
+	    
+            for c in tools.allTools:
+                tb_icon_name = c.name+'_icon'
+                tb_icon_name = pygame.image.load('images/icons/'+c.icon+'.png').convert_alpha()
+                self.screen.blit(tb_icon_name, (tb_x, 0))
+		
+		self.tb_rects[c.name] = tb_icon_name.get_rect().move(tb_x, 0)
+		
+                tb_x = tb_x+50
+		
             # Update & Draw World
             self.world.update()
             self.world.draw()
             if self.world.run_physics:
                 self.bridge.for_each_frame()
 
-            #draw toolbar for tools
-            tb_x = 0
-            for c in tools.allTools:
-                tb_icon_name = c.name+'_icon'
-                tb_icon_name = pygame.image.load("activity-bridge.png").convert_alpha()
-                self.screen.blit(tb_icon_name, (tb_x, 0))
-                #print tb_icon.get_rect()
-                tb_x = tb_x+50
-
-            event = pygame.event.poll()
-            keyinput = pygame.key.get_pressed()
-
-            if keyinput[pygame.K_ESCAPE]:
-                raise SystemExit
-            elif event.type == pygame.QUIT:
-                self.running = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                print 'mouse pressed'
+            #event = pygame.event.poll()
 #                for c in tools.allTools:
 #                    tb_icon_name = c.name+'_icon'
 #
@@ -103,7 +120,7 @@ class PhysicsGame:
 
             #Print all the text on the screen
             text = self.font.render(_("Total Cost: %d") % self.bridge.cost, True, (0,0,0))
-            textpos = text.get_rect(top=57)
+            textpos = text.get_rect(top=64)
             self.screen.blit(text,textpos)
             ratio = self.bridge.stress*100/self.bridge.capacity
             text = self.font.render(_("Stress: %d%%") % ratio, True, (0,0,0))
@@ -123,7 +140,7 @@ class PhysicsGame:
             pygame.display.flip()  
             
             # Try to stay at 30 FPS
-            self.clock.tick(30) # originally 50    
+            self.clock.tick(40) # originally 50    
 
     def setTool(self,tool):
         self.currentTool.cancel()
@@ -134,6 +151,7 @@ def main():
     tabheight = 45
     pygame.init()
     pygame.display.init()
+    pygame.fastevent.init()
     x,y  = pygame.display.list_modes()[0]
     screen = pygame.display.set_mode((x,y-toolbarheight-tabheight))
     # create an instance of the game

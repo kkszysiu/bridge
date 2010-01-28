@@ -97,12 +97,12 @@ class CircleTool(Tool):
         # draw a circle from pt1 to mouse
         if self.pt1 != None:
             self.radius = distance(self.pt1,pygame.mouse.get_pos())
-            if self.radius > 3: 
+            if self.radius > 3:
                 thick = 3
             else:
                 thick = 0
-            pygame.draw.circle(self.game.screen, (100,180,255),self.pt1,self.radius,thick) 
-            pygame.draw.line(self.game.screen,(100,180,255),self.pt1,pygame.mouse.get_pos(),1)  
+            pygame.draw.circle(self.game.screen, (100,180,255), self.pt1, self.radius, thick) 
+            pygame.draw.line(self.game.screen, (100,180,255), self.pt1, pygame.mouse.get_pos(), 1)  
     def cancel(self):
         self.pt1 = None  
         self.radius = None
